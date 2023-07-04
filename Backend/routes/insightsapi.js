@@ -33,7 +33,8 @@ router.post('/postinsight',async (req,res)=>{
         const hyperlinks = [];
         anchorTags.each((index, element) => {
             const href = $(element).attr('href');
-            hyperlinks.push(href);
+            if(href.startsWith("http"))
+                hyperlinks.push(href);
         });
 
         // Extract all image tags
