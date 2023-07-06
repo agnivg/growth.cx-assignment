@@ -7,7 +7,9 @@ const Home = () => {
   const [wordCount, setWordCount] = useState(null)
   const [hyperLinks, setHyperLinks] = useState([])
   const [mediaLinks, setMediaLinks] = useState([])
+  const [load, setLoad] = useState(null)
   const submit = () => {
+    setLoad("Loading....")
     axios({
       url: "https://growthcx-backend.onrender.com/postinsight",
       method: "POST",
@@ -17,6 +19,7 @@ const Home = () => {
         setHyperLinks(res.data.webLinks)
         setMediaLinks(res.data.mediaLinks)
         setWordCount(res.data.wordCount)
+        setLoad(null)
     })
     .catch((e) => {
         console.log("Internal Server error");
@@ -38,11 +41,14 @@ const Home = () => {
                     Get Insights
                 </button><br/>
                 {
-                    wordCount &&
+                    load && <p>{load}</p>
+                }
+                {
+                    !load && wordCount &&
                     <h3>WordCount: {wordCount}</h3>
                 }
                 {
-                    hyperLinks && hyperLinks.length>0 &&
+                    !load && hyperLinks && hyperLinks.length>0 &&
                     <div>
                         <h4>WebLinks:</h4>
                         <ul>
@@ -55,7 +61,7 @@ const Home = () => {
                     </div>
                 }
                 {
-                    mediaLinks && mediaLinks.length>0 &&
+                    !load && mediaLinks && mediaLinks.length>0 &&
                     <div>
                         <h4>MediaLinks:</h4>
                         <ul>
